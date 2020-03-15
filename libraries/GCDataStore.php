@@ -40,6 +40,18 @@ class GCDataStore
   private $accessTokenExpiresAt = null;
 
   /**
+   * [private description]
+   * @var [type]
+   */
+  private $lastResponseCode;
+
+  /**
+   * [private description]
+   * @var [type]
+   */
+  private $lastResponse;
+
+  /**
    * [__construct description]
    * @date 2020-03-14
    */
@@ -172,22 +184,25 @@ class GCDataStore
    * [commit description]
    * @date   2020-03-15
    * @param  GCDataStoreCommit $commit [description]
-   * @return bool                          [description]
+   * @return object|null               [description]
    */
-  public function commit(GCDataStoreCommit $commit):bool
+  public function commit(GCDataStoreCommit $commit):?object
   {
     if ($this->should_fetch_access_token()) $this->fetch_access_token();
 
     list($code, $response) = (new GCDataStoreRequest(GCDataStoreRequest::POST))(
       $this->get_base_url('commit'),
-      [
-        "Authorization: $this->accessTokenType $this->accessToken",
-        "ContentType: application/json"
-      ],
+      ["Authorization: $this->accessTokenType $this->accessToken"],
       $commit->toArray()
     );
 
-    var_dump($code);
-    var_dump($response);
+    $this->lastResponseCode = $code;
+    $this->lastResponse = $response;
+
+    if ($code == 200) {
+      return json_decode($response);
+    }
+
+    return null;
   }
 }
