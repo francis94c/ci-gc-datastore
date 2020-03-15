@@ -16,6 +16,18 @@ class GCDataStoreMutation
   const UPDATE = 'update';
 
   /**
+   * [UPSERT description]
+   * @var string
+   */
+  const UPSERT = 'upsert';
+
+  /**
+   * [DELETE description]
+   * @var string
+   */
+  const DELETE = 'delete';
+
+  /**
    * [private description]
    * @var [type]
    */
@@ -26,6 +38,12 @@ class GCDataStoreMutation
    * @var [type]
    */
   private $entity;
+
+  /**
+   * [private description]
+   * @var [type]
+   */
+  private $key;
 
   /**
    * [__construct description]
@@ -56,6 +74,6 @@ class GCDataStoreMutation
    */
   public function toArray():array
   {
-    return [$this->type => $this->entity->toArray()];
+    return [$this->type => $this->type == self::DELETE ? $this->key->toArray() : $this->entity->toArray()];
   }
 }
