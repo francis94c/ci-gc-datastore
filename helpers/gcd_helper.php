@@ -28,3 +28,10 @@ if (!function_exists('gcd_entity')) {
     return new GCDataStoreEntity($key);
   }
 }
+
+if (!function_exists('gql_query')) {
+  function gql_query(string $queryString, ?bool $allowLiterals=null):GQLQuery
+  {
+    return new GQLQuery($queryString, $allowLiterals);
+  }
+}

@@ -205,4 +205,40 @@ class GCDataStore
 
     return null;
   }
+
+  /**
+   * [gqlQuery description]
+   * @date   2020-03-15
+   * @param  GQLQuery   $gqlQuery [description]
+   * @return [type]               [description]
+   */
+  public function gqlQuery(GQLQuery $gqlQuery):?object
+  {
+    if ($this->should_fetch_access_token()) $this->fetch_access_token();
+
+    list($code, $response) = (new GCDataStoreRequest(GCDataStoreRequest::POST))(
+      $this->get_base_url('runQuery'),
+      ["Authorization: $this->accessTokenType $this->accessToken"],
+      $gqlQuery->toArray()
+    );
+
+    $this->lastResponseCode = $code;
+    $this->lastResponse = $response;
+
+    if ($code == 200) {
+      return json_decode($response);
+    }
+
+    return null;
+  }
+
+  /**
+   * [getLastResponse description]
+   * @date   2020-03-15
+   * @return string     [description]
+   */
+  public function getLastResponse():string
+  {
+    return $this->lastResponse;
+  }
 }
