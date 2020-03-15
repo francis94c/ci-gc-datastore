@@ -84,6 +84,8 @@ $entity = gcd_entity($key);
 
 $entity->setStringProperty('name', 'Nigeria')
   ->setStringProperty('continent', 'Africa')
+  ->setStringProperty('code', 'NG')
+  ->setStringProperty('currency', 'NGN')
   ->setIntegerProperty('number_of_states', 36);
 
 $commit = gcd_commit(GCDataStoreCommit::MODE_NON_TRANSACTIONAL);
@@ -93,6 +95,7 @@ $commit->addMutation(
 
 
 $this->gcd->commit($commit); // Save to GCD.
+
 // Or With the Objects Directly
 
 $key = new GCDataStoreKey('Country');
@@ -100,6 +103,8 @@ $entity = new GCDataStoreEntity($key);
 
 $entity->setStringProperty('name', 'Nigeria')
   ->setStringProperty('continent', 'Africa')
+  ->setStringProperty('code', 'NG')
+  ->setStringProperty('currency', 'NGN')
   ->setIntegerProperty('number_of_states', 36);
 
 $commit = new GCDataStoreCommit(GCDataStoreCommit::MODE_NON_TRANSACTIONAL);
