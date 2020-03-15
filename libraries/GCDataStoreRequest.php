@@ -53,19 +53,12 @@ class GCDataStoreRequest
     }
     // Header.
     $header[] = 'Content-Type: application/json';
-    if ($body != null)  {
-      $header[] = 'Content-Length: '.strlen($body);
-    } else {
-      $header[] = 'Content-Length: 0';
-    }
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     curl_setopt($ch, CURLOPT_USERAGENT, 'CI GCD Library');
     // Request Method and Body.
     if ($this->verb == self::POST) {
       curl_setopt($ch, CURLOPT_POST, true);
-      if ($body != null) {
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-      }
+      if ($body) curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
     }
     // Exec.
     $response = curl_exec($ch);
