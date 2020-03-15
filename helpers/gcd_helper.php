@@ -16,9 +16,9 @@ if (!function_exists('gcd_mutation')) {
 }
 
 if (!function_exists('gcd_key')) {
-  function gcd_key(?string $kind=null):GCDataStoreKey
+  function gcd_key(?string $kind=null, ?int $id=null):GCDataStoreKey
   {
-    return new GCDataStoreKey($kind);
+    return new GCDataStoreKey($kind, $id);
   }
 }
 
