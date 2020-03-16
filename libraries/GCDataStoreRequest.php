@@ -51,15 +51,18 @@ class GCDataStoreRequest
     if (ENVIRONMENT == 'development') {
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     }
+
     // Header.
     $header[] = 'Content-Type: application/json';
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     curl_setopt($ch, CURLOPT_USERAGENT, 'CI GCD Library');
+
     // Request Method and Body.
     if ($this->verb == self::POST) {
       curl_setopt($ch, CURLOPT_POST, true);
       if ($body) curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
     }
+
     // Exec.
     $response = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

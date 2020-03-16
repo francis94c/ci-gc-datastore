@@ -116,3 +116,46 @@ $this->gcd->commit($commit); // Save to GCD.
 ```
 
 You can call the `$commit's` `addMutation` function as many times as required, to add multiple mutations
+
+#### Update an Entity ####
+
+To Update an entity, you go through a similar process to the one above, the main difference is that you need a complete key (Key must contain the ID of the entity to update). Usually, you's get the ID of the entity from a previous query.
+
+The following code updates the `number_of_states` property of the entity to `40`.
+
+```php
+$key = gcd_key('Country', 34567893432345); // Kind = 'Country', ID = 34567893432345
+$entity = gcd_entity($key);
+
+$entity->setStringProperty('name', 'Nigeria')
+  ->setStringProperty('continent', 'Africa')
+  ->setStringProperty('code', 'NG')
+  ->setStringProperty('currency', 'NGN')
+  ->setIntegerProperty('number_of_states', 40);
+
+$commit = gcd_commit(GCDataStoreCommit::MODE_NON_TRANSACTIONAL);
+$commit->addMutation(
+  gcd_mutation(GCDataStoreMutation::UPDATE)->setEntity($entity) // INSERT Operation
+);
+
+
+$this->gcd->commit($commit); // Save to GCD.
+
+// Or With the Objects Directly
+
+$key = new GCDataStoreKey('Country', 34567893432345);
+$entity = new GCDataStoreEntity($key);
+
+$entity->setStringProperty('name', 'Nigeria')
+  ->setStringProperty('continent', 'Africa')
+  ->setStringProperty('code', 'NG')
+  ->setStringProperty('currency', 'NGN')
+  ->setIntegerProperty('number_of_states', 40);
+
+$commit = new GCDataStoreCommit(GCDataStoreCommit::MODE_NON_TRANSACTIONAL);
+$muatation = new GCDataStoreMutation(GCDataStoreMutation::UPDATE);
+$mutation->setEntity($entity);
+$commit->addMutation($mutation);
+
+$this->gcd->commit($commit); // Save to GCD.
+```
